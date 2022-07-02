@@ -25,12 +25,12 @@ const workSchema = new Schema<WorkSchema>(
       type: String,
       required: true,
     },
-    user: {
+    userId: {
       type: mongoose.Types.ObjectId,
-      ref: "user",
+      ref: "users",
     },
   },
   { versionKey: false }
 );
 
-export default model("work", workSchema);
+export default model("works", workSchema);

@@ -4,12 +4,14 @@ export interface WorkSchema {
   image: string;
   pageUrl?: string;
   gitHubUrl: string;
-  user: UserSchema;
+  userId?: string;
 }
 
 export interface UserSchema {
   name: string;
   email: string;
   password: string;
-  works: WorkSchema[];
+  works?: Array<any>;
 }
+
+export type User = Omit<UserSchema, "works">;

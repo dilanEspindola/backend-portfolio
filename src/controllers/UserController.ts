@@ -1,9 +1,27 @@
 import { Request, Response } from "express";
+import bcrypt from "bcryptjs";
+import { User as NewUser, UserSchema } from "../interfaces/interfaces";
+import User from "../Models/User";
 
-export const userGet = (_req: Request, res: Response) => {
-  return res.json({ msg: "hola" });
+export const userGet = async (_req: Request, res: Response) => {
+  try {
+    const users = await User.find().populate("works");
+    return res.json(users);
+  } catch ({ message }) {
+    return res.status(500).json({
+      message: message,
+    });
+  }
 };
 
-export const userPost = (_req: Request, res: Response) => {
-  return res.send("ok");
+export const userPost = async (req: Request, res: Response) => {
+  const { name, password, email } = req.body as NewUser;
+  try {
+    const hashedPassword = await bcrypt.hash(password, 8);
+    const saveUser = new User({ name, password: hashedPassword, email });
+    await saveUser.save();
+    return res.status(200).json({ msg: "User have been saved" });
+  } catch (error) {
+    throw new Error(error as string);
+  }
 };

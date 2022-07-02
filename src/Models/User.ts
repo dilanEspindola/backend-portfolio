@@ -21,7 +21,7 @@ const userSchema = new Schema<UserSchema>(
     works: [
       {
         type: mongoose.Types.ObjectId,
-        ref: "work",
+        ref: "works",
       },
     ],
   },
@@ -30,4 +30,4 @@ const userSchema = new Schema<UserSchema>(
   }
 );
 
-export default model("user", userSchema);
+export default model("users", userSchema);
