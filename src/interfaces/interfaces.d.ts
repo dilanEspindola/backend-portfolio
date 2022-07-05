@@ -8,6 +8,7 @@ export interface WorkSchema {
 }
 
 export interface UserSchema {
+  _id?: string;
   name: string;
   email: string;
   password: string;

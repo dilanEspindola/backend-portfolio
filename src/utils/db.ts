@@ -1,9 +1,8 @@
 import { connect } from "mongoose";
-import { config } from "dotenv";
-config();
+import config from "../config";
 
 const dbConnection = () => {
-  connect(process.env.MONGO_DB_URI_PROD || "")
+  connect(config.MONGO_DB_URI || "")
     .then((conn) =>
       console.log("Connected to:", conn.connection.db.databaseName)
     )
