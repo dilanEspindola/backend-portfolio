@@ -15,9 +15,7 @@ export const verifyToken = async (
   const token = req.headers["x-access-token"] || req.headers["authorization"];
   try {
     if (!token) {
-      res.status(401).json({
-        message: "No token provided",
-      });
+      res.status(401).json({ message: "No token provided" });
     } else {
       const decoded = jwt.verify(
         token.toString(),
@@ -31,9 +29,7 @@ export const verifyToken = async (
       });
     }
   } catch (error) {
-    res.status(401).json({
-      message: "Invalid token",
-    });
+    res.status(401).json({ message: "Invalid token" });
   }
 };
 

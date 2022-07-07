@@ -34,3 +34,12 @@ export const userRegister = async (req: Request, res: Response) => {
 export const userLogin = async (_req: Request, res: Response) => {
   res.send("ok");
 };
+
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    return res.json("User deleted");
+  } catch ({ message }) {
+    return res.status(500).json({ message: message });
+  }
+};
