@@ -64,7 +64,3 @@ export const deleteUser = async (req: Request, res: Response) => {
     return res.status(500).json({ message: message });
   }
 };
-
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
-//   .eyJpZCI6IjYyZDMwYjc0ZDY0ZmE4MTc0YmMyMzkxMyIsImlhdCI6MTY1Nzk5ODE5NiwiZXhwIjoxNjU4MDg0NTk2fQ
-//   .iGasc7JAlj4ZeWYra7A8XN9MOUbALlcHVjktDsJEa_0
