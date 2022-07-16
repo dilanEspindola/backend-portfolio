@@ -5,6 +5,10 @@ import { User as NewUser, UserSchema } from "../interfaces/interfaces";
 import User from "../Models/User";
 import config from "../config";
 
+interface JWTPayload {
+  id: string;
+}
+
 export const userGet = async (_req: Request, res: Response) => {
   try {
     const users = await User.find().populate("works");
@@ -25,14 +29,31 @@ export const userRegister = async (req: Request, res: Response) => {
     const token = jwt.sign({ id: userSaved._id }, config.JWT_SECRET as string, {
       expiresIn: "24h",
     });
-    return res.status(200).json({ msg: "User have been saved", token });
+    return res
+      .status(200)
+      .json({ msg: "User have been saved", token, user: userSaved });
   } catch (error) {
     throw new Error(error as string);
   }
 };
 
-export const userLogin = async (_req: Request, res: Response) => {
-  res.send("ok");
+export const userLogin = async (req: Request, res: Response) => {
+  const { email, password } = req.body as NewUser;
+  try {
+    const getUser = await User.findOne({ email });
+    if (!getUser) return res.json({ msg: "email is not valid" });
+
+    const getUserPassword = getUser.password;
+    const validatePassword = await bcrypt.compare(password, getUserPassword);
+
+    if (!validatePassword) return res.json({ msg: "wrong password" });
+    const token = jwt.sign({ id: getUser._id }, config.JWT_SECRET as string, {
+      expiresIn: "24h",
+    });
+    return res.status(200).json({ auth: true, token, user: getUser });
+  } catch (error) {
+    return res.status(500).json({ msg: "internal server error" });
+  }
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
@@ -43,3 +64,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     return res.status(500).json({ message: message });
   }
 };
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+//   .eyJpZCI6IjYyZDMwYjc0ZDY0ZmE4MTc0YmMyMzkxMyIsImlhdCI6MTY1Nzk5ODE5NiwiZXhwIjoxNjU4MDg0NTk2fQ
+//   .iGasc7JAlj4ZeWYra7A8XN9MOUbALlcHVjktDsJEa_0

@@ -32,7 +32,3 @@ export const verifyToken = async (
     res.status(401).json({ message: "Invalid token" });
   }
 };
-
-/* token
- * eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYzRjMmJiYjg4ZmUwMzJmODhlODU2OCIsImlhdCI6MTY1NzA2MjA3NiwiZXhwIjoxNjU3MTQ4NDc2fQ.aqPvD45u8K6bCypBQ0NdtmnHDyxlm2cYx9SMiKVwZgg
- */
